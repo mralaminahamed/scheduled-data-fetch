@@ -1,0 +1,30 @@
+{
+  "name": "alamin/scheduled-data-fetch",
+  "description": "A WordPress plugin for fetching data from a SOAP API scheduly",
+  "type": "wordpress-plugin",
+  "version": "1.0.0",
+  "license": "MIT",
+  "autoload": {
+    "psr-4": {
+      "Alamin\\ScheduledDataFetch\\": "src/"
+    }
+  },
+  "authors": [
+    {
+      "name": "Al Amin Ahamed",
+      "email": "34349365+mralaminahamed@users.noreply.github.com"
+    }
+  ],
+  "require": {},
+  "config": {
+    "platform": {
+      "php": "7.3"
+    },
+    "allow-plugins": {
+      "dealerdirect/phpcodesniffer-composer-installer": true,
+      "composer/installers": true
+    }
+  },
+  "prefer-stable": true,
+  "minimum-stability": "stable"
+}
