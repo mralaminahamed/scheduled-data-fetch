@@ -15,7 +15,9 @@
       "email": "34349365+mralaminahamed@users.noreply.github.com"
     }
   ],
-  "require": {},
+  "require": {
+    "guzzlehttp/guzzle": "^7.0"
+  },
   "config": {
     "platform": {
       "php": "7.3"
