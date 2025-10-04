@@ -1,17 +1,63 @@
-
 {
-  "name": "scheduled-data-fetch",
-  "version": "0.1.0",
-  "main": "Gruntfile.js",
-  "author": "YOUR NAME HERE",
-  "scripts" : {
-    "start" : "grunt default" ,
-    "readme" : "grunt readme",
-    "i18n" : "grunt i18n"
+  "name": "@alaminahamed/scheduled-data-fetch",
+  "version": "1.0.0",
+  "description": "A WordPress plugin for fetching data from a SOAP API on a scheduled basis",
+  "scripts": {
+    "build": "wp-scripts build",
+    "start": "webpack start",
+    "packages-update": "wp-scripts packages-update"
+  },
+  "keywords": [
+    "wordpress",
+    "plugin",
+    "soap",
+    "api",
+    "scheduled",
+    "data-fetch",
+    "cron",
+    "automation"
+  ],
+  "author": "Al Amin Ahamed <me@alaminahamed.com> (https://alaminahamed.com)",
+  "license": "MIT",
+  "homepage": "https://alaminahamed.com/projects/scheduled-data-fetch",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/mralaminahamed/scheduled-data-fetch.git"
+  },
+  "bugs": {
+    "url": "https://github.com/mralaminahamed/scheduled-data-fetch/issues"
   },
   "devDependencies": {
-    "grunt": "~0.4.5",
-    "grunt-wp-i18n": "~0.5.0",
-    "grunt-wp-readme-to-markdown": "~1.0.0"
-  }
+    "@babel/core": "^7.28.4",
+    "@playwright/test": "^1.55.1",
+    "@wordpress/eslint-plugin": "^22.17.0",
+    "@wordpress/scripts": "^30.24.0",
+    "@wordpress/stylelint-config": "^23.23.0",
+    "css-loader": "^7.1.2",
+    "eslint": "8",
+    "file-loader": "^6.2.0",
+    "jquery": "^3.7.1",
+    "prettier": "^3.6.2",
+    "react": "18",
+    "react-dom": "18",
+    "sass": "^1.93.2",
+    "sass-loader": "^16.0.5",
+    "stylelint": "^16.24.0",
+    "stylelint-config-prettier-scss": "^1.0.0",
+    "stylelint-config-recess-order": "^7.3.0",
+    "stylelint-order": "^7.0.0",
+    "stylelint-scss": "^6.12.1",
+    "typescript": "^5.9.2",
+    "webpack": "^5.101.3",
+    "webpack-cli": "^6.0.1"
+  },
+  "dependencies": {
+    "@wordpress/dom-ready": "^4.31.0",
+    "@wordpress/element": "^6.31.0",
+    "@wordpress/i18n": "^6.4.0"
+  },
+  "browserslist": [
+    "extends @wordpress/browserslist-config"
+  ],
+  "packageManager": "yarn@4.10.3"
 }

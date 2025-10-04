@@ -1,41 +1,75 @@
 <?php
 /**
- * Plugin Name:     Scheduled Data Fetch
- * Plugin URI:      PLUGIN SITE HERE
- * Description:     PLUGIN DESCRIPTION HERE
- * Author:          YOUR NAME HERE
- * Author URI:      YOUR SITE HERE
- * Text Domain:     scheduled-data-fetch
- * Domain Path:     /languages
- * Version:         0.1.0
+ * Scheduled Data Fetch
  *
- * @throws SoapFault
- * @package         Scheduled_Data_Fetch
+ * @package           ScheduledDataFetch
+ * @author            Al Amin Ahamed
+ * @copyright         2025 Al Amin Ahamed
+ * @license           MIT
+ *
+ * @wordpress-plugin
+ * Plugin Name:       Scheduled Data Fetch
+ * Plugin URI:        https://alaminahamed.com/projects/scheduled-data-fetch
+ * Description:       A WordPress plugin for fetching data from a SOAP API on a scheduled basis using WordPress Cron. Automatically syncs data daily with robust error handling.
+ * Version:           1.0.0
+ * Requires at least: 5.0
+ * Requires PHP:      7.3
+ * Author:            Al Amin Ahamed
+ * Author URI:        https://alaminahamed.com
+ * Text Domain:       scheduled-data-fetch
+ * Domain Path:       /languages
+ * License:           MIT
+ * License URI:       https://opensource.org/licenses/MIT
  */
+
+if ( ! defined( 'ABSPATH' ) ) {
+	exit; // Exit if accessed directly.
+}
+
+define( 'SCHEDULED_DATA_FETCH_VERSION', '1.0.0' );
+define( 'SCHEDULED_DATA_FETCH_FILE', __FILE__ );
+define( 'SCHEDULED_DATA_FETCH_URL', plugin_dir_url( __FILE__ ) );
+define( 'SCHEDULED_DATA_FETCH_PATH', plugin_dir_path( __FILE__ ) );
+
+if ( ! file_exists( __DIR__ . '/vendor/autoload.php' ) ) {
+	return;
+}
+
+require_once __DIR__ . '/vendor/autoload.php';
 
 use GuzzleHttp\Client;
 use GuzzleHttp\Psr7\Request;
 
-// Load plugin
-require_once __DIR__ . '/vendor/autoload.php';
-
-
-add_action( 'my_schedule_data_fetch', 'do_schedule_data_fetch' );
-
-do_schedule_data_fetch();
+/**
+ * Register the scheduled event hook
+ *
+ * @since 1.0.0
+ */
+add_action( 'scheduled_data_fetch_event', 'scheduled_data_fetch_callback' );
 
 /**
- * Define the callback function
+ * Fetch data from SOAP API
  *
- * @throws SoapFault
+ * @since 1.0.0
+ * @return void
  */
-function do_schedule_data_fetch() {
+function scheduled_data_fetch_callback() {
+	do_action( 'scheduled_data_fetch_before' );
+
 	try {
-		// Call the SOAP method
-		$client = new Client();
-		$headers = [
-			'Content-Type' => 'text/xml; charset=utf-8'
-		];
+		// Initialize Guzzle client
+		$client = new Client(
+			array(
+				'verify'  => true, // Verify SSL certificates
+				'timeout' => 30,   // Request timeout
+			)
+		);
+
+		$headers = array(
+			'Content-Type' => 'text/xml; charset=utf-8',
+		);
+
+		// SOAP request body
 		$body = '<?xml version="1.0" encoding="utf-8"?>
 <soap12:Envelope xmlns:soap12="http://www.w3.org/2003/05/soap-envelope">
   <soap12:Body>
@@ -43,34 +77,80 @@ function do_schedule_data_fetch() {
     </ListOfCurrenciesByName>
   </soap12:Body>
 </soap12:Envelope>';
-		$request = new Request('POST', 'http://webservices.oorsprong.org/websamples.countryinfo/CountryInfoService.wso', $headers, $body);
-		$res = $client->sendAsync($request)->wait();
-		echo $res->getBody();
 
-		// Process the response
-//		var_dump( $res->getBody() );
+		// Apply filters to allow customization
+		$endpoint = apply_filters( 'scheduled_data_fetch_endpoint', 'http://webservices.oorsprong.org/websamples.countryinfo/CountryInfoService.wso' );
+		$headers  = apply_filters( 'scheduled_data_fetch_headers', $headers );
+		$body     = apply_filters( 'scheduled_data_fetch_body', $body );
+
+		// Create and send request
+		$request  = new Request( 'POST', $endpoint, $headers, $body );
+		$response = $client->sendAsync( $request )->wait();
+
+		// Get response data
+		$data = $response->getBody()->getContents();
+		$data = apply_filters( 'scheduled_data_fetch_data', $data );
+
+		// Process the response (customize as needed)
+		// Example: update_option( 'scheduled_data_fetch_result', $data );
+
+		do_action( 'scheduled_data_fetch_success', $data );
+
+		// Log success (only in debug mode)
+		if ( defined( 'WP_DEBUG' ) && WP_DEBUG ) {
+			error_log( 'Scheduled Data Fetch: Successfully fetched data at ' . current_time( 'mysql' ) );
+		}
 	} catch ( Exception $e ) {
-		// Handle SOAP errors
-		echo "Error: " . $e->getMessage();
+		// Log error
+		error_log( 'Scheduled Data Fetch Error: ' . $e->getMessage() );
+
+		do_action( 'scheduled_data_fetch_error', $e );
 	}
 
+	do_action( 'scheduled_data_fetch_after' );
 }
 
-// Define activation function
-function my_plugin_activation() {
-	// Register WP schedule with the callback function
-	if ( ! wp_next_scheduled( 'my_schedule_data_fetch' ) ) {
-		wp_schedule_event( time(), 'daily', 'my_schedule_data_fetch' );
+/**
+ * Plugin activation hook
+ *
+ * @since 1.0.0
+ * @return void
+ */
+function scheduled_data_fetch_activation() {
+	// Register WP-Cron schedule if not already scheduled
+	if ( ! wp_next_scheduled( 'scheduled_data_fetch_event' ) ) {
+		wp_schedule_event( time(), 'daily', 'scheduled_data_fetch_event' );
+	}
+
+	// Log activation (only in debug mode)
+	if ( defined( 'WP_DEBUG' ) && WP_DEBUG ) {
+		error_log( 'Scheduled Data Fetch: Plugin activated and cron scheduled' );
 	}
 }
 
-register_activation_hook( __FILE__, 'my_plugin_activation' );
+register_activation_hook( __FILE__, 'scheduled_data_fetch_activation' );
 
-// Define deactivation function
-function my_plugin_deactivation() {
-	// Deregister WP schedule
-	wp_clear_scheduled_hook( 'my_schedule_data_fetch' );
+/**
+ * Plugin deactivation hook
+ *
+ * @since 1.0.0
+ * @return void
+ */
+function scheduled_data_fetch_deactivation() {
+	// Clear scheduled event
+	$timestamp = wp_next_scheduled( 'scheduled_data_fetch_event' );
+	if ( $timestamp ) {
+		wp_unschedule_event( $timestamp, 'scheduled_data_fetch_event' );
+	}
+
+	// Clear all scheduled hooks for this event
+	wp_clear_scheduled_hook( 'scheduled_data_fetch_event' );
+
+	// Log deactivation (only in debug mode)
+	if ( defined( 'WP_DEBUG' ) && WP_DEBUG ) {
+		error_log( 'Scheduled Data Fetch: Plugin deactivated and cron cleared' );
+	}
 }
 
-register_deactivation_hook( __FILE__, 'my_plugin_deactivation' );
+register_deactivation_hook( __FILE__, 'scheduled_data_fetch_deactivation' );
 

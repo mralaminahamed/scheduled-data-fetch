@@ -1,0 +1,29 @@
+parameters:
+    level: 8
+    paths:
+        - scheduled-data-fetch.php
+        - src/
+
+    excludePaths:
+        - vendor/
+        - node_modules/
+        # - build/
+        - tests/
+
+    bootstrapFiles:
+         - vendor/php-stubs/wordpress-stubs/wordpress-stubs.php
+         - vendor/php-stubs/woocommerce-stubs/woocommerce-stubs.php
+
+    # WordPress-specific configuration
+    checkExplicitMixedMissingReturn: false
+    checkFunctionNameCase: false
+    checkInternalClassCaseSensitivity: false
+    checkMissingCallableSignature: false
+    checkTooWideReturnTypesInProtectedAndPublicMethods: false
+    checkUninitializedProperties: false
+
+    # Ignore third-party plugin classes and WordPress-specific issues
+    ignoreErrors:
+        - '#Constant SCHEDULED_DATA_FETCH_.* not found#'
+        - '#Class .* extends generic class WP_Widget but does not specify its types#'
+        - '#Function is_plugin_active not found#'

@@ -1,0 +1,55 @@
+{
+    "extends": [
+        "@wordpress/stylelint-config/scss",
+        "stylelint-config-prettier-scss",
+        "stylelint-config-recess-order"
+    ],
+    "rules": {
+        "at-rule-empty-line-before": [
+            "always",
+            {
+                "except": [
+                    "blockless-after-same-name-blockless",
+                    "first-nested"
+                ],
+                "ignore": [
+                    "after-comment"
+                ],
+                "ignoreAtRules": [
+                    "else"
+                ]
+            }
+        ],
+        "declaration-property-unit-allowed-list": {
+            "line-height": []
+        },
+        "font-weight-notation": null,
+        "no-descending-specificity": null,
+        "scss/at-extend-no-missing-placeholder": null,
+        "scss/at-function-pattern": "^[a-z]([a-z0-9-]+)*$",
+        "scss/at-mixin-pattern": "^[a-z]([a-z0-9-]+)*$",
+        "scss/dollar-variable-pattern": "^[a-z]([a-z0-9-]+)*$",
+        "scss/percent-placeholder-pattern": "^[a-z]([a-z0-9-]+)*$",
+        "scss/selector-no-redundant-nesting-selector": true,
+        "selector-class-pattern": [
+            "^[a-z]([a-z0-9-]+)*(__([a-z0-9]+-?)+)?(--([a-z0-9]+-?)+){0,2}$|^scheduled-data-fetch(-[a-z0-9]+)*$",
+            {
+                "message": "Class names should follow BEM methodology or use 'scheduled-data-fetch-' prefix"
+            }
+        ],
+        "value-keyword-case": [
+            "lower",
+            {
+                "ignoreProperties": [
+                    "/font-family/"
+                ]
+            }
+        ]
+    },
+    "ignoreFiles": [
+        "build/**",
+        "node_modules/**",
+        "vendor/**",
+        "**/*.min.css"
+    ]
+}

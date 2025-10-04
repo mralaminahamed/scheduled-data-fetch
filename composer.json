@@ -1,32 +1,51 @@
 {
-  "name": "alamin/scheduled-data-fetch",
-  "description": "A WordPress plugin for fetching data from a SOAP API scheduly",
-  "type": "wordpress-plugin",
-  "version": "1.0.0",
-  "license": "MIT",
-  "autoload": {
-    "psr-4": {
-      "Alamin\\ScheduledDataFetch\\": "src/"
-    }
-  },
-  "authors": [
-    {
-      "name": "Al Amin Ahamed",
-      "email": "34349365+mralaminahamed@users.noreply.github.com"
-    }
-  ],
-  "require": {
-    "guzzlehttp/guzzle": "^7.0"
-  },
-  "config": {
-    "platform": {
-      "php": "7.3"
+    "name": "alaminahamed/scheduled-data-fetch",
+    "description": "A WordPress plugin for fetching data from a SOAP API on a scheduled basis",
+    "type": "wordpress-plugin",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Al Amin Ahamed",
+            "email": "me@alaminahamed.com",
+            "homepage": "https://alaminahamed.com"
+        }
+    ],
+    "homepage": "https://alaminahamed.com/projects/scheduled-data-fetch",
+    "support": {
+        "issues": "https://github.com/mralaminahamed/scheduled-data-fetch/issues",
+        "source": "https://github.com/mralaminahamed/scheduled-data-fetch"
     },
-    "allow-plugins": {
-      "dealerdirect/phpcodesniffer-composer-installer": true,
-      "composer/installers": true
+    "require": {
+        "php": ">=7.3",
+        "guzzlehttp/guzzle": "^7.0"
+    },
+    "require-dev": {
+        "phpstan/phpstan": "^2.1",
+        "squizlabs/php_codesniffer": "^3.7",
+        "wp-coding-standards/wpcs": "^3.2",
+        "phpcompatibility/php-compatibility": "^9.3",
+        "dealerdirect/phpcodesniffer-composer-installer": "^1.1",
+        "php-stubs/wordpress-stubs": "^6.4",
+        "php-stubs/woocommerce-stubs": "^8.3",
+        "szepeviktor/phpstan-wordpress": "^2.0"
+    },
+    "config": {
+        "allow-plugins": {
+            "dealerdirect/phpcodesniffer-composer-installer": true
+        },
+        "optimize-autoloader": true,
+        "classmap-authoritative": true
+    },
+    "autoload": {
+        "psr-4": {
+            "Alamin\\ScheduledDataFetch\\": "src/"
+        }
+    },
+    "scripts": {
+        "phpcs": "phpcs",
+        "phpcbf": "phpcbf",
+        "phpstan": "phpstan analyse",
+        "makepot": "wp i18n make-pot . languages/scheduled-data-fetch.pot --exclude=node_modules,vendor,drafts,docs,build,release,tests",
+        "zip": "cd .. && zip -r scheduled-data-fetch.zip scheduled-data-fetch/ -x 'scheduled-data-fetch/*.git*' 'scheduled-data-fetch/node_modules/*' 'scheduled-data-fetch/vendor/*' 'scheduled-data-fetch/composer.*' 'scheduled-data-fetch/phpcs.xml' 'scheduled-data-fetch/phpstan.neon' 'scheduled-data-fetch/.gitignore' 'scheduled-data-fetch/.DS_Store' 'scheduled-data-fetch/.idea/*' 'scheduled-data-fetch/drafts/*' 'scheduled-data-fetch/docs/*' 'scheduled-data-fetch/build/*' 'scheduled-data-fetch/release/*' 'scheduled-data-fetch/tests/*' 'scheduled-data-fetch/*.md' 'scheduled-data-fetch/*.lock' 'scheduled-data-fetch/*.zip' && mv scheduled-data-fetch.zip scheduled-data-fetch/"
     }
-  },
-  "prefer-stable": true,
-  "minimum-stability": "stable"
 }
