@@ -2,21 +2,21 @@
 /**
  * Scheduled Data Fetch
  *
- * @package           ScheduledDataFetch
+ * @package           WPScheduledDataFetch
  * @author            Al Amin Ahamed
  * @copyright         2025 Al Amin Ahamed
  * @license           MIT
  *
  * @wordpress-plugin
- * Plugin Name:       Scheduled Data Fetch
- * Plugin URI:        https://alaminahamed.com/projects/scheduled-data-fetch
+ * Plugin Name:       WP Scheduled Data Fetch
+ * Plugin URI:        https://alaminahamed.com/projects/wp-scheduled-data-fetch
  * Description:       A WordPress plugin for fetching data from a SOAP API on a scheduled basis using WordPress Cron. Automatically syncs data daily with robust error handling.
  * Version:           1.0.0
  * Requires at least: 5.0
  * Requires PHP:      7.3
  * Author:            Al Amin Ahamed
  * Author URI:        https://alaminahamed.com
- * Text Domain:       scheduled-data-fetch
+ * Text Domain:       wp-scheduled-data-fetch
  * Domain Path:       /languages
  * License:           MIT
  * License URI:       https://opensource.org/licenses/MIT
@@ -26,10 +26,10 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly.
 }
 
-define( 'SCHEDULED_DATA_FETCH_VERSION', '1.0.0' );
-define( 'SCHEDULED_DATA_FETCH_FILE', __FILE__ );
-define( 'SCHEDULED_DATA_FETCH_URL', plugin_dir_url( __FILE__ ) );
-define( 'SCHEDULED_DATA_FETCH_PATH', plugin_dir_path( __FILE__ ) );
+define( 'WP_SCHEDULED_DATA_FETCH_VERSION', '1.0.0' );
+define( 'WP_SCHEDULED_DATA_FETCH_FILE', __FILE__ );
+define( 'WP_SCHEDULED_DATA_FETCH_URL', plugin_dir_url( __FILE__ ) );
+define( 'WP_SCHEDULED_DATA_FETCH_PATH', plugin_dir_path( __FILE__ ) );
 
 if ( ! file_exists( __DIR__ . '/vendor/autoload.php' ) ) {
 	return;
@@ -45,7 +45,7 @@ use GuzzleHttp\Psr7\Request;
  *
  * @since 1.0.0
  */
-add_action( 'scheduled_data_fetch_event', 'scheduled_data_fetch_callback' );
+add_action( 'wp_scheduled_data_fetch_event', 'wp_scheduled_data_fetch_callback' );
 
 /**
  * Fetch data from SOAP API
@@ -53,8 +53,8 @@ add_action( 'scheduled_data_fetch_event', 'scheduled_data_fetch_callback' );
  * @since 1.0.0
  * @return void
  */
-function scheduled_data_fetch_callback() {
-	do_action( 'scheduled_data_fetch_before' );
+function wp_scheduled_data_fetch_callback() {
+	do_action( 'wp_scheduled_data_fetch_before' );
 
 	try {
 		// Initialize Guzzle client
@@ -79,9 +79,9 @@ function scheduled_data_fetch_callback() {
 </soap12:Envelope>';
 
 		// Apply filters to allow customization
-		$endpoint = apply_filters( 'scheduled_data_fetch_endpoint', 'http://webservices.oorsprong.org/websamples.countryinfo/CountryInfoService.wso' );
-		$headers  = apply_filters( 'scheduled_data_fetch_headers', $headers );
-		$body     = apply_filters( 'scheduled_data_fetch_body', $body );
+		$endpoint = apply_filters( 'wp_scheduled_data_fetch_endpoint', 'http://webservices.oorsprong.org/websamples.countryinfo/CountryInfoService.wso' );
+		$headers  = apply_filters( 'wp_scheduled_data_fetch_headers', $headers );
+		$body     = apply_filters( 'wp_scheduled_data_fetch_body', $body );
 
 		// Create and send request
 		$request  = new Request( 'POST', $endpoint, $headers, $body );
@@ -89,25 +89,17 @@ function scheduled_data_fetch_callback() {
 
 		// Get response data
 		$data = $response->getBody()->getContents();
-		$data = apply_filters( 'scheduled_data_fetch_data', $data );
+		$data = apply_filters( 'wp_scheduled_data_fetch_data', $data );
 
 		// Process the response (customize as needed)
 		// Example: update_option( 'scheduled_data_fetch_result', $data );
 
-		do_action( 'scheduled_data_fetch_success', $data );
-
-		// Log success (only in debug mode)
-		if ( defined( 'WP_DEBUG' ) && WP_DEBUG ) {
-			error_log( 'Scheduled Data Fetch: Successfully fetched data at ' . current_time( 'mysql' ) );
-		}
+		do_action( 'wp_scheduled_data_fetch_success', $data );
 	} catch ( Exception $e ) {
-		// Log error
-		error_log( 'Scheduled Data Fetch Error: ' . $e->getMessage() );
-
-		do_action( 'scheduled_data_fetch_error', $e );
+		do_action( 'wp_scheduled_data_fetch_error', $e );
 	}
 
-	do_action( 'scheduled_data_fetch_after' );
+	do_action( 'wp_scheduled_data_fetch_after' );
 }
 
 /**
@@ -116,19 +108,14 @@ function scheduled_data_fetch_callback() {
  * @since 1.0.0
  * @return void
  */
-function scheduled_data_fetch_activation() {
+function wp_scheduled_data_fetch_activation() {
 	// Register WP-Cron schedule if not already scheduled
-	if ( ! wp_next_scheduled( 'scheduled_data_fetch_event' ) ) {
-		wp_schedule_event( time(), 'daily', 'scheduled_data_fetch_event' );
-	}
-
-	// Log activation (only in debug mode)
-	if ( defined( 'WP_DEBUG' ) && WP_DEBUG ) {
-		error_log( 'Scheduled Data Fetch: Plugin activated and cron scheduled' );
+	if ( ! wp_next_scheduled( 'wp_scheduled_data_fetch_event' ) ) {
+		wp_schedule_event( time(), 'daily', 'wp_scheduled_data_fetch_event' );
 	}
 }
 
-register_activation_hook( __FILE__, 'scheduled_data_fetch_activation' );
+register_activation_hook( __FILE__, 'wp_scheduled_data_fetch_activation' );
 
 /**
  * Plugin deactivation hook
@@ -136,7 +123,7 @@ register_activation_hook( __FILE__, 'scheduled_data_fetch_activation' );
  * @since 1.0.0
  * @return void
  */
-function scheduled_data_fetch_deactivation() {
+function wp_scheduled_data_fetch_deactivation() {
 	// Clear scheduled event
 	$timestamp = wp_next_scheduled( 'scheduled_data_fetch_event' );
 	if ( $timestamp ) {
@@ -145,12 +132,7 @@ function scheduled_data_fetch_deactivation() {
 
 	// Clear all scheduled hooks for this event
 	wp_clear_scheduled_hook( 'scheduled_data_fetch_event' );
-
-	// Log deactivation (only in debug mode)
-	if ( defined( 'WP_DEBUG' ) && WP_DEBUG ) {
-		error_log( 'Scheduled Data Fetch: Plugin deactivated and cron cleared' );
-	}
 }
 
-register_deactivation_hook( __FILE__, 'scheduled_data_fetch_deactivation' );
+register_deactivation_hook( __FILE__, 'wp_scheduled_data_fetch_deactivation' );
 

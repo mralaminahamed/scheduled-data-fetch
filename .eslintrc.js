@@ -38,7 +38,7 @@ module.exports = {
 		'@wordpress/no-unused-vars-before-return': 'error',
 		'@wordpress/valid-sprintf': 'error',
 		'@wordpress/i18n-text-domain': [ 'error', {
-			allowedTextDomain: 'scheduled-data-fetch',
+			allowedTextDomain: 'wp-scheduled-data-fetch',
 		} ],
 		'@wordpress/i18n-translator-comments': 'error',
 		'@wordpress/i18n-no-variables': 'error',

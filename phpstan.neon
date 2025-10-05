@@ -1,7 +1,7 @@
 parameters:
     level: 8
     paths:
-        - scheduled-data-fetch.php
+        - wp-scheduled-data-fetch.php
         - src/
 
     excludePaths:
@@ -24,6 +24,6 @@ parameters:
 
     # Ignore third-party plugin classes and WordPress-specific issues
     ignoreErrors:
-        - '#Constant SCHEDULED_DATA_FETCH_.* not found#'
+        - '#Constant WP_SCHEDULED_DATA_FETCH_.* not found#'
         - '#Class .* extends generic class WP_Widget but does not specify its types#'
         - '#Function is_plugin_active not found#'

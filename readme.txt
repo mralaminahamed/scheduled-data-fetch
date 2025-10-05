@@ -1,6 +1,6 @@
-=== Scheduled Data Fetch ===
+=== WP Scheduled Data Fetch ===
 Contributors: (this should be a list of wordpress.org userid's)
-Donate link: https://example.com/
+Donate link: https://alaminahamed.com/donate
 Tags: comments, spam
 Requires at least: 4.5
 Tested up to: 6.6-alpha-57873

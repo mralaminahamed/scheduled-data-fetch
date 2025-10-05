@@ -1,5 +1,4 @@
 module.exports = function( grunt ) {
-
 	'use strict';
 
 	// Project configuration
@@ -9,21 +8,21 @@ module.exports = function( grunt ) {
 
 		addtextdomain: {
 			options: {
-				textdomain: 'scheduled-data-fetch',
+				textdomain: 'wp-scheduled-data-fetch',
 			},
 			update_all_domains: {
 				options: {
-					updateDomains: true
+					updateDomains: true,
 				},
-				src: [ '*.php', '**/*.php', '!\.git/**/*', '!bin/**/*', '!node_modules/**/*', '!tests/**/*' ]
-			}
+				src: [ '*.php', '**/*.php', '!\.git/**/*', '!bin/**/*', '!node_modules/**/*', '!tests/**/*' ],
+			},
 		},
 
 		wp_readme_to_markdown: {
 			your_target: {
 				files: {
-					'README.md': 'readme.txt'
-				}
+					'README.md': 'readme.txt',
+				},
 			},
 		},
 
@@ -32,25 +31,24 @@ module.exports = function( grunt ) {
 				options: {
 					domainPath: '/languages',
 					exclude: [ '\.git/*', 'bin/*', 'node_modules/*', 'tests/*' ],
-					mainFile: 'scheduled-data-fetch.php',
-					potFilename: 'scheduled-data-fetch.pot',
+					mainFile: 'wp-scheduled-data-fetch.php',
+					potFilename: 'wp-scheduled-data-fetch.pot',
 					potHeaders: {
 						poedit: true,
-						'x-poedit-keywordslist': true
+						'x-poedit-keywordslist': true,
 					},
 					type: 'wp-plugin',
-					updateTimestamp: true
-				}
-			}
+					updateTimestamp: true,
+				},
+			},
 		},
 	} );
 
 	grunt.loadNpmTasks( 'grunt-wp-i18n' );
 	grunt.loadNpmTasks( 'grunt-wp-readme-to-markdown' );
-	grunt.registerTask( 'default', [ 'i18n','readme' ] );
-	grunt.registerTask( 'i18n', ['addtextdomain', 'makepot'] );
-	grunt.registerTask( 'readme', ['wp_readme_to_markdown'] );
+	grunt.registerTask( 'default', [ 'i18n', 'readme' ] );
+	grunt.registerTask( 'i18n', [ 'addtextdomain', 'makepot' ] );
+	grunt.registerTask( 'readme', [ 'wp_readme_to_markdown' ] );
 
 	grunt.util.linefeed = '\n';
-
 };

@@ -1,10 +1,10 @@
 {
-  "name": "@alaminahamed/scheduled-data-fetch",
+  "name": "@mralaminahamed/wp-scheduled-data-fetch",
   "version": "1.0.0",
   "description": "A WordPress plugin for fetching data from a SOAP API on a scheduled basis",
   "scripts": {
     "build": "wp-scripts build",
-    "start": "webpack start",
+    "start": "wp-scripts start",
     "packages-update": "wp-scripts packages-update"
   },
   "keywords": [
@@ -19,13 +19,13 @@
   ],
   "author": "Al Amin Ahamed <me@alaminahamed.com> (https://alaminahamed.com)",
   "license": "MIT",
-  "homepage": "https://alaminahamed.com/projects/scheduled-data-fetch",
+  "homepage": "https://alaminahamed.com/projects/wp-scheduled-data-fetch",
   "repository": {
     "type": "git",
-    "url": "https://github.com/mralaminahamed/scheduled-data-fetch.git"
+    "url": "https://github.com/mralaminahamed/wp-scheduled-data-fetch.git"
   },
   "bugs": {
-    "url": "https://github.com/mralaminahamed/scheduled-data-fetch/issues"
+    "url": "https://github.com/mralaminahamed/wp-scheduled-data-fetch/issues"
   },
   "devDependencies": {
     "@babel/core": "^7.28.4",

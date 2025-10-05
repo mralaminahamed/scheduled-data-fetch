@@ -1,5 +1,5 @@
 {
-    "name": "alaminahamed/scheduled-data-fetch",
+    "name": "mralaminahamed/wp-scheduled-data-fetch",
     "description": "A WordPress plugin for fetching data from a SOAP API on a scheduled basis",
     "type": "wordpress-plugin",
     "license": "MIT",
@@ -10,10 +10,10 @@
             "homepage": "https://alaminahamed.com"
         }
     ],
-    "homepage": "https://alaminahamed.com/projects/scheduled-data-fetch",
+    "homepage": "https://alaminahamed.com/projects/wp-scheduled-data-fetch",
     "support": {
-        "issues": "https://github.com/mralaminahamed/scheduled-data-fetch/issues",
-        "source": "https://github.com/mralaminahamed/scheduled-data-fetch"
+        "issues": "https://github.com/mralaminahamed/wp-scheduled-data-fetch/issues",
+        "source": "https://github.com/mralaminahamed/wp-scheduled-data-fetch"
     },
     "require": {
         "php": ">=7.3",
@@ -38,14 +38,14 @@
     },
     "autoload": {
         "psr-4": {
-            "Alamin\\ScheduledDataFetch\\": "src/"
+            "WPScheduledDataFetch\\": "src/"
         }
     },
     "scripts": {
         "phpcs": "phpcs",
         "phpcbf": "phpcbf",
         "phpstan": "phpstan analyse",
-        "makepot": "wp i18n make-pot . languages/scheduled-data-fetch.pot --exclude=node_modules,vendor,drafts,docs,build,release,tests",
-        "zip": "cd .. && zip -r scheduled-data-fetch.zip scheduled-data-fetch/ -x 'scheduled-data-fetch/*.git*' 'scheduled-data-fetch/node_modules/*' 'scheduled-data-fetch/vendor/*' 'scheduled-data-fetch/composer.*' 'scheduled-data-fetch/phpcs.xml' 'scheduled-data-fetch/phpstan.neon' 'scheduled-data-fetch/.gitignore' 'scheduled-data-fetch/.DS_Store' 'scheduled-data-fetch/.idea/*' 'scheduled-data-fetch/drafts/*' 'scheduled-data-fetch/docs/*' 'scheduled-data-fetch/build/*' 'scheduled-data-fetch/release/*' 'scheduled-data-fetch/tests/*' 'scheduled-data-fetch/*.md' 'scheduled-data-fetch/*.lock' 'scheduled-data-fetch/*.zip' && mv scheduled-data-fetch.zip scheduled-data-fetch/"
+        "makepot": "wp i18n make-pot . languages/wp-scheduled-data-fetch.pot --exclude=node_modules,vendor,drafts,docs,build,release,tests",
+        "zip": "cd .. && zip -r wp-scheduled-data-fetch.zip wp-scheduled-data-fetch/ -x 'wp-scheduled-data-fetch/*.git*' 'wp-scheduled-data-fetch/node_modules/*' 'wp-scheduled-data-fetch/vendor/*' 'wp-scheduled-data-fetch/composer.*' 'wp-scheduled-data-fetch/phpcs.xml' 'wp-scheduled-data-fetch/phpstan.neon' 'wp-scheduled-data-fetch/.gitignore' 'wp-scheduled-data-fetch/.DS_Store' 'wp-scheduled-data-fetch/.idea/*' 'wp-scheduled-data-fetch/drafts/*' 'wp-scheduled-data-fetch/docs/*' 'wp-scheduled-data-fetch/build/*' 'wp-scheduled-data-fetch/release/*' 'wp-scheduled-data-fetch/tests/*' 'wp-scheduled-data-fetch/*.md' 'wp-scheduled-data-fetch/*.lock' 'wp-scheduled-data-fetch/*.zip' && mv wp-scheduled-data-fetch.zip wp-scheduled-data-fetch/"
     }
 }
